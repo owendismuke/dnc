@@ -7,11 +7,7 @@ import (
   "io/ioutil"
   "strings"
   "log"
-
 )
-
-type MyHandler struct {
-}
 
 //Main Function - Listens for Requests
 func init() {
@@ -19,7 +15,7 @@ func init() {
   
   http.HandleFunc("/", indexHandler)
   http.HandleFunc("/test", testHandler)
-  http.ListenAndServe(":8080", nil)
+  // http.ListenAndServe(":8080", nil)
 }
 
 func testHandler(res http.ResponseWriter, req *http.Request) {
@@ -33,6 +29,7 @@ func testHandler(res http.ResponseWriter, req *http.Request) {
 func indexHandler(w http.ResponseWriter, req *http.Request) {
   //Serve /templates/index.html
   log.Println(req.URL.Path)
+  log.Println("index Handler called - index.html template should be served")
   templates, err := template.ParseFiles("../templates/index.html")
   if err != nil {
     log.Println(err)
@@ -43,8 +40,9 @@ func indexHandler(w http.ResponseWriter, req *http.Request) {
 
 func publicHandler(w http.ResponseWriter, req *http.Request) {
   path := req.URL.Path
+  log.Println("public file requested")
   log.Println(path)
-  data, err := ioutil.ReadFile(string(""+path))
+  data, err := ioutil.ReadFile(string(path))
 
   if err == nil {
     var contentType string
