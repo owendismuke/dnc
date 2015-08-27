@@ -1,4 +1,4 @@
-package main
+package dnc
 
 import (
   "fmt"
@@ -14,7 +14,7 @@ type MyHandler struct {
 }
 
 //Main Function - Listens for Requests
-func main() {
+func init() {
   http.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("../public/"))) )
   
   http.HandleFunc("/", indexHandler)
@@ -46,7 +46,7 @@ func publicHandler(w http.ResponseWriter, req *http.Request) {
   log.Println(path)
   data, err := ioutil.ReadFile(string(""+path))
 
-  if err ==nil {
+  if err == nil {
     var contentType string
     
     if strings.HasSuffix(path, ".css") {
