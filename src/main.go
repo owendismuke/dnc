@@ -7,6 +7,7 @@ import (
   "io/ioutil"
   "strings"
   "log"
+  "bytes"
 )
 
 //Main Function - Listens for Requests
@@ -15,16 +16,24 @@ func init() {
   
   http.HandleFunc("/", indexHandler)
   http.HandleFunc("/test", testHandler)
+  http.HandleFunc("/view", viewHandler)
   // http.ListenAndServe(":8080", nil)
 }
+
+//Memory object to dump data into
+var buffer bytes.Buffer
 
 func testHandler(res http.ResponseWriter, req *http.Request) {
   //Handling the request
   
   //Handling the response
   //Writes string to response
-  fmt.Fprintf(res, string("Response from DNC Web Client\n") )
+  switch req.Method {
+    case "POST":  log.Printf("POST from %s", req.RemoteAddr)
+    default:  fmt.Fprintf(res, string("Response from DNC Web Client\n") )
+  }
 }
+
 
 func indexHandler(w http.ResponseWriter, req *http.Request) {
   //Serve /templates/index.html
@@ -61,8 +70,6 @@ func publicHandler(w http.ResponseWriter, req *http.Request) {
     w.WriteHeader(404)
     w.Write([]byte("404 no bueno " + http.StatusText(404)))
   }
-
-
 }
 
 func viewHandler(res http.ResponseWriter, req *http.Request) {
