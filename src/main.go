@@ -39,7 +39,7 @@ func indexHandler(w http.ResponseWriter, req *http.Request) {
   //Serve /templates/index.html
   log.Println(req.URL.Path)
   log.Println("index Handler called - index.html template should be served")
-  templates, err := template.ParseFiles("../templates/index.html")
+  templates, err := template.ParseFiles("templates/index.html")
   if err != nil {
     log.Println(err)
     return
